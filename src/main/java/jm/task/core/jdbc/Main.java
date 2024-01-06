@@ -2,9 +2,9 @@ package jm.task.core.jdbc;
 
 import jm.task.core.jdbc.model.User;
 import jm.task.core.jdbc.service.UserServiceImpl;
-import jm.task.core.jdbc.util.Util;
+import jm.task.core.jdbc.util.HibernateUtil;
+import org.hibernate.HibernateException;
 
-import java.sql.SQLException;
 import java.util.List;
 
 public class Main {
@@ -21,10 +21,10 @@ public class Main {
         }
         userService.cleanUsersTable();
         userService.dropUsersTable();
-        if (Util.getConnection() != null) {
+        if (HibernateUtil.getSessionFactory() != null) {
             try {
-                Util.getConnection().close();
-            } catch (SQLException e) {
+                HibernateUtil.getSessionFactory().close();
+            } catch (HibernateException e) {
                 System.out.println("Error: " + e.getMessage());
             }
         }
